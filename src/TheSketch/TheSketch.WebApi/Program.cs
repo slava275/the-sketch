@@ -1,7 +1,9 @@
 using FluentValidation;
+using Microsoft.EntityFrameworkCore;
 using TheSketch.Application;
 using TheSketch.Application.Validators;
 using TheSketch.Infrastructure;
+using TheSketch.Infrastructure.Context;
 using TheSketch.WebApi.Middlewares;
 
 namespace TheSketch.WebApi
@@ -29,6 +31,26 @@ namespace TheSketch.WebApi
             builder.Services.AddValidatorsFromAssemblyContaining<CreateArticleValidator>();
 
             var app = builder.Build();
+
+            using (var scope = app.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+                try
+                {
+                    var context = services.GetRequiredService<TheSketchDbContext>();
+
+                    context.Database.Migrate();
+
+                    Console.WriteLine("--> Міграції успішно застосовані до бази даних.");
+                }
+                catch (Exception ex)
+                {
+                    var logger = services.GetRequiredService<ILogger<Program>>();
+                    logger.LogError(ex, "--> Сталася помилка під час застосування міграцій.");
+
+                    throw;
+                }
+            }
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())

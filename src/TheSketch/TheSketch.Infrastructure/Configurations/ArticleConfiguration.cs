@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -44,7 +45,12 @@ public class ArticleConfiguration : IEntityTypeConfiguration<Article>
             .HasConversion(
                 v => JsonSerializer.Serialize(v, jsonOptions),
                 v => ConvertJsonToBlocks(v, jsonOptions)
-            );
+            )
+            .Metadata.SetValueComparer(new ValueComparer<List<ArticleBlock>>(
+                (c1, c2) => c1 != null && c2 != null && c1.SequenceEqual(c2),
+                c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())),
+                c => c.ToList()
+            ));
     }
 
     private static List<ArticleBlock> ConvertJsonToBlocks(string json, JsonSerializerOptions options)
