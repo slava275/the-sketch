@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  thesketch.webapi:
+    image: ${DOCKER_REGISTRY-}thesketchwebapi
+    container_name: thesketch.webapi
+    build:
+      context: .
+      dockerfile: TheSketch.WebApi/Dockerfile
+    ports:
+      - "5000:8080"
+      - "5001:8081"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__PostgreSQL=Host=thesketch.database;Port=5432;Database=thesketch;Username=thesketch;Password=thesketch
+    depends_on:
+      - thesketch.database
+
+  thesketch.database:
+    image: postgres:latest
+    container_name: thesketch.database
+    environment:
+      POSTGRES_USER: thesketch
+      POSTGRES_PASSWORD: thesketch
+      POSTGRES_DB: thesketch
+    volumes:
+      - thesketch-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+volumes:
+  thesketch-data:
