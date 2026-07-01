@@ -21,4 +21,6 @@ public interface IArticleRepository
     Task<IEnumerable<Article>> GetByDateRangeAsync(DateTime startDate, DateTime endDate);
 
     Task<bool> ExistsAsync(Guid id);
+
+    Task SaveChangesAsync();
 }
