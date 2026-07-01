@@ -33,6 +33,22 @@ public class ArticleRepository : IArticleRepository
             .AnyAsync(x => x.Id == id);
     }
 
+    public async Task<int> CountAsync()
+    {
+        return await context.Articles.CountAsync();
+    }
+
+    public async Task<IEnumerable<Article>> GetRelatedAsync(Guid currentArticleId, ArticleCategory category, List<string> tags, int count)
+    {
+        return await context.Articles
+            .AsNoTracking()
+            .Where(x => x.Id != currentArticleId &&
+                       (x.Category == category || x.Tags.Any(t => tags.Contains(t))))
+            .OrderByDescending(x => x.CreatedAt)
+            .Take(count)
+            .ToListAsync();
+    }
+
     public async Task<IEnumerable<Article>> GetAllAsync(int page = 1, int pageSize = 10)
     {
         return await context.Articles
