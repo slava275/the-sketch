@@ -1,3 +1,4 @@
 <Solution>
+  <Project Path="TheSketch.Application/TheSketch.Application.csproj" />
   <Project Path="TheSketch.Domain/TheSketch.Domain.csproj" />
 </Solution>
