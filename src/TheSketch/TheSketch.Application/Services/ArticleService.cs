@@ -4,6 +4,7 @@ using TheSketch.Application.Interfaces.Repositories;
 using TheSketch.Application.Interfaces.Services;
 using TheSketch.Application.Mappings;
 using TheSketch.Domain.Entities;
+using TheSketch.Domain.Exceptions;
 
 namespace TheSketch.Application.Services;
 
@@ -35,7 +36,7 @@ public class ArticleService : IArticleService
     {
         var article = await _articleRepository.GetByIdAsync(id);
         if (article == null)
-            throw new InvalidOperationException("Article not found");
+            throw new EntityNotFoundException($"Article with ID {id} not found");
 
         _articleRepository.Delete(article);
         await _articleRepository.SaveChangesAsync();
@@ -67,9 +68,7 @@ public class ArticleService : IArticleService
     {
         var article = await _articleRepository.GetBySlugAsync(slug);
         if (article == null)
-        {
-            throw new InvalidOperationException("Article not found");
-        }
+            throw new EntityNotFoundException($"Article with slug {slug} not found");
 
         return article.ToDetailsDto();
     }
@@ -117,7 +116,7 @@ public class ArticleService : IArticleService
 
         var article = await _articleRepository.GetByIdAsync(id);
         if (article == null)
-            throw new KeyNotFoundException($"Статтю з ID {id} не знайдено.");
+            throw new EntityNotFoundException($"Article with ID {id} not found");
 
         if (!string.Equals(article.Title, dto.Title, StringComparison.OrdinalIgnoreCase))
         {
