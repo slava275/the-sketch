@@ -6,7 +6,7 @@ public class CreateArticleDto
 {
     public string Title { get; set; } = null!;
     public string? Description { get; set; }
-    public string? CoverImageUrl { get; set; }
+    public string CoverImageUrl { get; set; } = null!;
     public DateTime? CreatedAt { get; set; }
     public ArticleCategory Category { get; set; }
 
