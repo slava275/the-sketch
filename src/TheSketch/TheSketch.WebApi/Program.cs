@@ -1,5 +1,8 @@
 using FluentValidation;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 using TheSketch.Application;
 using TheSketch.Application.Validators;
 using TheSketch.Infrastructure;
@@ -15,6 +18,31 @@ namespace TheSketch.WebApi
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
+            var jwtSettings = builder.Configuration.GetSection("JwtSettings");
+            var secretKey = Encoding.UTF8.GetBytes(jwtSettings["Secret"]!);
+
+            builder.Services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = jwtSettings["Issuer"],
+                        ValidAudience = jwtSettings["Audience"],
+                        IssuerSigningKey = new SymmetricSecurityKey(secretKey),
+
+                        ClockSkew = TimeSpan.Zero
+                    };
+                });
+
+            builder.Services.AddAuthorization();
 
             builder.Services.AddControllers();
 
@@ -60,8 +88,10 @@ namespace TheSketch.WebApi
             }
 
             app.UseHttpsRedirection();
-
+            app.UseRouting();
+            app.UseAuthentication();
             app.UseAuthorization();
+
             app.UseMiddleware<ExceptionHandlingMiddleware>();
 
             app.MapControllers();

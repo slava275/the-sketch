@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using TheSketch.Application.DTOs;
 using TheSketch.Application.Interfaces.Services;
 using TheSketch.Domain.Entities;
@@ -77,6 +78,7 @@ public class ArticlesController : ControllerBase
     }
 
     // POST: api/articles
+    [Authorize(Roles = "Admin")]
     [HttpPost]
     public async Task<ActionResult<ArticleDto>> Create([FromBody] CreateArticleDto dto)
     {
@@ -86,6 +88,7 @@ public class ArticlesController : ControllerBase
     }
 
     // PUT: api/articles/d3b07384-e29b-433c-a9b0-4578550e8400
+    [Authorize(Roles = "Admin")]
     [HttpPut("{id:guid}")]
     public async Task<ActionResult<ArticleDto>> Update(Guid id, [FromBody] UpdateArticleDto dto)
     {
@@ -94,6 +97,7 @@ public class ArticlesController : ControllerBase
     }
 
     // DELETE: api/articles/d3b07384-e29b-433c-a9b0-4578550e8400
+    [Authorize(Roles = "Admin")]
     [HttpDelete("{id:guid}")]
     public async Task<IActionResult> Delete(Guid id)
     {
