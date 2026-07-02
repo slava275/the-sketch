@@ -32,6 +32,7 @@ public class ExceptionHandlingMiddleware
         var statusCode = ex switch
         {
             EntityNotFoundException => StatusCodes.Status404NotFound,
+            UserException => StatusCodes.Status400BadRequest,
             ArgumentException => StatusCodes.Status400BadRequest,
             _ => StatusCodes.Status500InternalServerError
         };
@@ -45,6 +46,7 @@ public class ExceptionHandlingMiddleware
             {
                 EntityNotFoundException => "Entity not found",
                 ArgumentException => "Invalid argument",
+                UserException => "Invalid user data",
                 _ => "An unexpected error occurred"
             },
             Detail = "One or more validation failures have occurred.",
@@ -53,6 +55,7 @@ public class ExceptionHandlingMiddleware
             {
                 EntityNotFoundException => "https://tools.ietf.org/html/rfc7231#section-6.5.4",
                 ArgumentException => "https://tools.ietf.org/html/rfc7231#section-6.5.1",
+                UserException => "https://tools.ietf.org/html/rfc7231#section-6.5.1",
                 _ => "https://tools.ietf.org/html/rfc7231#section-6.6.1"
             }
         };
