@@ -14,6 +14,8 @@ public class TheSketchDbContext: DbContext
     }
 
     public DbSet<Article> Articles { get; set; }
+    public DbSet<User> Users { get; set; }
+    public DbSet<UserArticleBookmark> UserArticleBookmarks { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

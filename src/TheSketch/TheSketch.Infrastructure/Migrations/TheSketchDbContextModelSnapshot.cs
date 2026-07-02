@@ -71,6 +71,79 @@ namespace TheSketch.Infrastructure.Migrations
 
                     b.ToTable("Articles");
                 });
+
+            modelBuilder.Entity("TheSketch.Domain.Entities.User", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
+
+                    b.Property<string>("PasswordHash")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
+
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("TheSketch.Domain.Entities.UserArticleBookmark", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("ArticleId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("BookmarkedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("UserId", "ArticleId");
+
+                    b.HasIndex("ArticleId");
+
+                    b.ToTable("UserArticleBookmarks");
+                });
+
+            modelBuilder.Entity("TheSketch.Domain.Entities.UserArticleBookmark", b =>
+                {
+                    b.HasOne("TheSketch.Domain.Entities.Article", "Article")
+                        .WithMany("BookmarkedByUsers")
+                        .HasForeignKey("ArticleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TheSketch.Domain.Entities.User", "User")
+                        .WithMany("Bookmarks")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Article");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("TheSketch.Domain.Entities.Article", b =>
+                {
+                    b.Navigation("BookmarkedByUsers");
+                });
+
+            modelBuilder.Entity("TheSketch.Domain.Entities.User", b =>
+                {
+                    b.Navigation("Bookmarks");
+                });
 #pragma warning restore 612, 618
         }
     }

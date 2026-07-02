@@ -34,6 +34,10 @@ public class ArticleConfiguration : IEntityTypeConfiguration<Article>
         builder.Property(a => a.Tags)
             .IsRequired();
 
+        builder.HasMany(a => a.BookmarkedByUsers)
+            .WithOne(b => b.Article)
+            .HasForeignKey(b => b.ArticleId);
+
         var jsonOptions = new JsonSerializerOptions
         {
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase,

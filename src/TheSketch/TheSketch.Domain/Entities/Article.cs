@@ -17,6 +17,8 @@ public class Article
     public List<string> Tags { get; set; } = new ();
     public List<ArticleBlock> Blocks { get; set; } = new();
 
+    public List<UserArticleBookmark> BookmarkedByUsers { get; set; } = new();
+
     public void CalculateTimeToRead()
     {
         if (Blocks == null || !Blocks.Any())
@@ -70,7 +72,7 @@ public class Article
         TimeToRead = (byte)Math.Clamp(finalMinutes, 1, 255);
     }
 
-    private int CountWords(string? text)
+    private static int CountWords(string? text)
     {
         if (string.IsNullOrWhiteSpace(text))
             return 0;
