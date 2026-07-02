@@ -31,14 +31,23 @@ public class UserRepository : IUserRepository
         await _context.Users.AddAsync(user);
     }
 
-    public async Task<IEnumerable<UserArticleBookmark>> GetBookmarksAsync(Guid userId)
+    public async Task<IEnumerable<UserArticleBookmark>> GetBookmarksAsync(Guid userId, int pageNumber, int pageSize)
     {
         return await _context.UserArticleBookmarks
             .AsNoTracking()
             .Include(ub => ub.Article)
             .Where(ub => ub.UserId == userId)
             .OrderByDescending(ub => ub.BookmarkedAt)
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize)
             .ToListAsync();
+    }
+
+    public async Task<UserArticleBookmark?> GetBookmarkAsync(Guid userId, Guid articleId)
+    {
+        return await _context.UserArticleBookmarks
+            .AsNoTracking()
+            .FirstOrDefaultAsync(ub => ub.UserId == userId && ub.ArticleId == articleId);
     }
 
     public async Task<bool> IsBookmarkedAsync(Guid userId, Guid articleId)
