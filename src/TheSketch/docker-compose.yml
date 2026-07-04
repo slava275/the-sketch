@@ -8,8 +8,8 @@ services:
       context: .
       dockerfile: TheSketch.WebApi/Dockerfile
     ports:
-      - "5000:8080"
-      - "5001:8081"
+      - "5000:8000"
+      - "5001:8001"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings__PostgreSQL=Host=thesketch.database;Port=5432;Database=thesketch;Username=thesketch;Password=thesketch
@@ -24,7 +24,7 @@ services:
       POSTGRES_PASSWORD: thesketch
       POSTGRES_DB: thesketch
     volumes:
-      - thesketch-data:/var/lib/postgresql/data
+      - thesketch-data:/var/lib/postgresql
     ports:
       - "5432:5432"
 
