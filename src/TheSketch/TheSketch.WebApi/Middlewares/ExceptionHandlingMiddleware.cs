@@ -49,7 +49,7 @@ public class ExceptionHandlingMiddleware
                 UserException => "Invalid user data",
                 _ => "An unexpected error occurred"
             },
-            Detail = "One or more validation failures have occurred.",
+            Detail = ex.Message,
             Instance = context.Request.Path,
             Type = ex switch
             {

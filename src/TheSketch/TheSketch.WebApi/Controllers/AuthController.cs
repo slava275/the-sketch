@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using TheSketch.Application.DTOs.Auth;
 using TheSketch.Application.Interfaces.Services;
+using TheSketch.Application.Validation.Auth;
 
 namespace TheSketch.WebApi.Controllers;
 
@@ -17,8 +18,14 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("register")]
-    public async Task<IActionResult> Register([FromBody] RegisterRequestDto request)
+    public async Task<IActionResult> Register([FromBody] RegisterRequestDto request,
+        [FromServices] RegisterRequestValidator validator)
     {
+        var results = validator.Validate(request);
+        if (results.Errors.Any()) {
+            return BadRequest(results);
+        }
+
         var result = await _authService.RegisterAsync(request);
         return Ok(result);
     }

@@ -22,8 +22,10 @@ public class UserRepository : IUserRepository
 
     public async Task<User?> GetByEmailAsync(string email)
     {
+        var cleanedEmail = email.Trim().ToLowerInvariant();
+
         return await _context.Users
-            .FirstOrDefaultAsync(u => u.Email.ToLower(CultureInfo.CurrentCulture) == email.ToLower(CultureInfo.CurrentCulture).Trim());
+            .FirstOrDefaultAsync(u => u.Email.ToLower() == cleanedEmail);
     }
 
     public async Task AddAsync(User user)

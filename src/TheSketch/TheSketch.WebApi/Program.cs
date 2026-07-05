@@ -18,7 +18,7 @@ namespace TheSketch.WebApi
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-            var jwtSettings = builder.Configuration.GetSection("JwtSettings");
+            var jwtSettings = builder.Configuration.GetSection("Jwt");
             var secretKey = Encoding.UTF8.GetBytes(jwtSettings["Secret"]!);
 
             builder.Services.AddAuthentication(options =>
@@ -56,6 +56,16 @@ namespace TheSketch.WebApi
             builder.Services.AddApplication();
             builder.Services.AddInfrastructure(builder.Configuration);
 
+            builder.Services.AddCors(builder =>
+            {
+                builder.AddPolicy("AllowFrontend", policy =>
+                {
+                    policy.WithOrigins("http://localhost:4200")
+                          .AllowAnyHeader()
+                          .AllowAnyMethod();
+                });
+            });
+
             builder.Services.AddValidatorsFromAssemblyContaining<CreateArticleValidator>();
 
             var app = builder.Build();
@@ -87,12 +97,15 @@ namespace TheSketch.WebApi
                 app.UseSwaggerUI();
             }
 
+            app.UseMiddleware<ExceptionHandlingMiddleware>();
+
             app.UseHttpsRedirection();
+
             app.UseRouting();
+            app.UseCors("AllowFrontend");
+
             app.UseAuthentication();
             app.UseAuthorization();
-
-            app.UseMiddleware<ExceptionHandlingMiddleware>();
 
             app.MapControllers();
 

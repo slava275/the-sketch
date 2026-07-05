@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using TheSketch.Infrastructure.Context;
@@ -12,9 +13,11 @@ using TheSketch.Infrastructure.Context;
 namespace TheSketch.Infrastructure.Migrations
 {
     [DbContext(typeof(TheSketchDbContext))]
-    partial class TheSketchDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260705153922_SeedAdminUser")]
+    partial class SeedAdminUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -102,7 +105,7 @@ namespace TheSketch.Infrastructure.Migrations
                         {
                             Id = new Guid("00000000-0000-0000-0000-000000000001"),
                             Email = "admin@thesketch.local",
-                            PasswordHash = "$2a$11$mC7p3vT1XGqK5b9zW8YxUeM4fQ6u2jE9rT3vY5wX8zG1aBbCcDdEe",
+                            PasswordHash = "$2a$11$8K4pYj7VfO4L3mQ2wExZu.uHkGb/6xXwTy9eY6W7Z0G3aBbCcDdEe",
                             Role = "Admin"
                         });
                 });
