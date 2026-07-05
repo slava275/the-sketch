@@ -63,9 +63,12 @@ public class ArticlesController : ControllerBase
 
     // GET: api/articles/search?searchTerm=виставка
     [HttpGet("search")]
-    public async Task<ActionResult<IEnumerable<ArticleDto>>> Search([FromQuery] string searchTerm)
+    public async Task<ActionResult<IEnumerable<ArticleDto>>> Search(
+        [FromQuery] string searchTerm,
+        [FromQuery] int page = 1,
+        [FromQuery] int pageSize = 10)
     {
-        var result = await _articleService.SearchAsync(searchTerm);
+        var result = await _articleService.SearchAsync(searchTerm, page, pageSize);
         return Ok(result);
     }
 

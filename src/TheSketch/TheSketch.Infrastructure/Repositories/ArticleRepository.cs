@@ -96,11 +96,13 @@ public class ArticleRepository : IArticleRepository
             .ToListAsync();
     }
 
-    public async Task<IEnumerable<Article>> SearchByTitleAsync(string searchTerm)
+    public async Task<IEnumerable<Article>> SearchByTitleAsync(string searchTerm, int page, int pageSize)
     {
         return await context.Articles
             .AsNoTracking()
             .Where(x => EF.Functions.ILike(x.Title, $"%{searchTerm}%"))
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
             .ToListAsync();
     }
 

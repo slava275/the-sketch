@@ -100,14 +100,14 @@ public class ArticleService : IArticleService
         return relatedArticles.Select(a => a.ToDto());
     }
 
-    public async Task<IEnumerable<ArticleDto>> SearchAsync(string searchTerm)
+    public async Task<PagedResponseDto<ArticleDto>> SearchAsync(string searchTerm, int page, int pageSize)
     {
         if (string.IsNullOrWhiteSpace(searchTerm))
-            return Enumerable.Empty<ArticleDto>();
+            return new PagedResponseDto<ArticleDto>(Enumerable.Empty<ArticleDto>(), 0, page, pageSize);
 
-        var articles = await _articleRepository.SearchByTitleAsync(searchTerm.Trim());
+        var articles = await _articleRepository.SearchByTitleAsync(searchTerm.Trim(), page, pageSize);
 
-        return articles.Select(a => a.ToDto());
+        return new PagedResponseDto<ArticleDto>(articles.Select(a => a.ToDto()), articles.Count(), page, pageSize);
     }
 
     public async Task<ArticleDto> UpdateAsync(Guid id, UpdateArticleDto dto)

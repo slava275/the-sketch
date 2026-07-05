@@ -18,7 +18,7 @@ public interface IArticleRepository
     Task<IEnumerable<Article>> GetByTagAsync(string tag, int page = 1, int pageSize = 10);
     Task<IEnumerable<Article>> GetRelatedAsync(Guid currentArticleId, ArticleCategory category, List<string> tags, int count);
 
-    Task<IEnumerable<Article>> SearchByTitleAsync(string searchTerm);
+    Task<IEnumerable<Article>> SearchByTitleAsync(string searchTerm, int page, int pageSize);
     Task<IEnumerable<Article>> GetByDateRangeAsync(DateTime startDate, DateTime endDate);
 
     Task<bool> ExistsAsync(Guid id);

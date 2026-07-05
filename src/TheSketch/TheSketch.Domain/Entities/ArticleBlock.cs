@@ -1,11 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.Json.Serialization;
 
 namespace TheSketch.Domain.Entities;
 
+[JsonPolymorphic(TypeDiscriminatorPropertyName = "type")]
+[JsonDerivedType(typeof(ParagraphBlock), "paragraph")]
+[JsonDerivedType(typeof(ImageBlock), "image-wide")]
+[JsonDerivedType(typeof(TitleBlock), "title")]
+[JsonDerivedType(typeof(QuoteBlock), "quote")]
+[JsonDerivedType(typeof(SubtitleBlock), "subtitle")]
 public abstract class ArticleBlock
 {
+    [JsonIgnore]
     public string Type { get; set; } = null!;
 }
 
