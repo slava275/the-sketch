@@ -55,16 +55,21 @@ public class BookmarkService : IBookmarkService
         await _userRepository.SaveChangesAsync();
     }
 
-    public async Task<IEnumerable<BookmarkedArticleDto>> GetUserBookmarksAsync(Guid userId, int pageNumber, int pageSize)
+    public async Task<IEnumerable<ArticleDto>> GetUserBookmarksAsync(Guid userId, int pageNumber, int pageSize)
     {
         var bookmarks = await _userRepository.GetBookmarksAsync(userId, pageNumber, pageSize);
 
-        return bookmarks.Select(b => new BookmarkedArticleDto(
-            b.ArticleId,
-            b.Article.Title,
-            b.Article.Slug,
-            b.Article.Description,
-            b.BookmarkedAt
-        ));
+        return bookmarks.Select(b => new ArticleDto
+        {
+            Id = b.Article.Id,
+            Category = b.Article.Category.ToString(),
+            Slug = b.Article.Slug,
+            CoverImageUrl = b.Article.CoverImageUrl,
+            CreatedAt = b.Article.CreatedAt,
+            Description = b.Article.Description,
+            Tags = b.Article.Tags,
+            TimeToRead = b.Article.TimeToRead,
+            Title = b.Article.Title
+        });
     }
 }
