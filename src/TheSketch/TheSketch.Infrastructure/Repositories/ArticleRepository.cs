@@ -53,6 +53,7 @@ public class ArticleRepository : IArticleRepository
     {
         return await context.Articles
             .AsNoTracking()
+            .OrderByDescending(x => x.CreatedAt)
             .Skip((page - 1) * pageSize)
             .Take(pageSize)
             .ToListAsync();
@@ -63,6 +64,7 @@ public class ArticleRepository : IArticleRepository
         return await context.Articles
             .AsNoTracking()
             .Where(x => x.Category == category)
+            .OrderByDescending(x => x.CreatedAt)
             .Skip((page - 1) * pageSize)
             .Take(pageSize)
             .ToListAsync();
@@ -73,6 +75,7 @@ public class ArticleRepository : IArticleRepository
         return await context.Articles
             .AsNoTracking()
             .Where(x => x.CreatedAt >= startDate && x.CreatedAt <= endDate)
+            .OrderByDescending(x => x.CreatedAt)
             .ToListAsync();
     }
 
@@ -91,6 +94,7 @@ public class ArticleRepository : IArticleRepository
         return await context.Articles
             .AsNoTracking()
             .Where(x => x.Tags.Any(t => t == tag))
+            .OrderByDescending(x => x.CreatedAt)
             .Skip((page - 1) * pageSize)
             .Take(pageSize)
             .ToListAsync();
@@ -101,6 +105,7 @@ public class ArticleRepository : IArticleRepository
         return await context.Articles
             .AsNoTracking()
             .Where(x => EF.Functions.ILike(x.Title, $"%{searchTerm}%"))
+            .OrderByDescending(x => x.CreatedAt)
             .Skip((page - 1) * pageSize)
             .Take(pageSize)
             .ToListAsync();
