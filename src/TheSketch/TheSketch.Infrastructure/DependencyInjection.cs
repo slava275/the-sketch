@@ -3,6 +3,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using TheSketch.Application.Interfaces.Repositories;
 using TheSketch.Application.Interfaces.Services;
+using TheSketch.Application.Interfaces.Services.External;
+using TheSketch.Domain.Common;
 using TheSketch.Infrastructure.Context;
 using TheSketch.Infrastructure.Repositories;
 using TheSketch.Infrastructure.Services;
@@ -18,6 +20,14 @@ public static class DependencyInjection
 
         services.AddScoped<IArticleRepository, ArticleRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
+        services.Configure<CloudinarySettings>(options =>
+        {
+            var section = configuration.GetSection(CloudinarySettings.SectionName);
+            options.CloudName = section["CloudName"]!;
+            options.ApiKey = section["ApiKey"]!;
+            options.ApiSecret = section["ApiSecret"]!;
+        });
+        services.AddScoped<IImageUploadService, CloudinaryImageUploadService>();
 
         services.AddScoped<ITokenService, TokenService>();
         return services;
