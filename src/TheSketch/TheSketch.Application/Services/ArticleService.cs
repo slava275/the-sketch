@@ -133,7 +133,7 @@ public class ArticleService : IArticleService
         return article.ToDto();
     }
 
-    private string GenerateSlug(string title)
+    private static string GenerateSlug(string title)
     {
         if (string.IsNullOrWhiteSpace(title))
             return Guid.NewGuid().ToString()[..8];

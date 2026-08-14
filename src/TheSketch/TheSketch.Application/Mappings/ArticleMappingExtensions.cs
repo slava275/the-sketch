@@ -70,6 +70,7 @@ public static class ArticleMappingExtensions
         article.Title = dto.Title;
         article.Description = dto.Description;
         article.CoverImageUrl = dto.CoverImageUrl;
+        article.CreatedAt = dto.CreatedAt ?? article.CreatedAt;
         article.Category = dto.Category;
         article.Tags = dto.Tags ?? new List<string>();
         article.Blocks = dto.Blocks ?? new List<ArticleBlock>();
