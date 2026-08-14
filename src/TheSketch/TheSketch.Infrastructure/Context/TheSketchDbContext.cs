@@ -27,9 +27,9 @@ public class TheSketchDbContext : DbContext
                 new User
                 {
                     Id = Guid.Parse("00000000-0000-0000-0000-000000000001"),
-                    Email = "admin@thesketch.local",
+                    Email = "admin@admin",
                     Role = "Admin",
-                    PasswordHash = "$2a$11$mC7p3vT1XGqK5b9zW8YxUeM4fQ6u2jE9rT3vY5wX8zG1aBbCcDdEe"
+                    PasswordHash = "$2a$11$TFHodhhcTrqDwycX/B53EekseJJm8silFkIigyYYD6MylgZFbszg2"
                 });
     }
 }
