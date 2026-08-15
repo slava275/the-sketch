@@ -11,6 +11,7 @@ namespace TheSketch.Domain.Entities;
 [JsonDerivedType(typeof(TitleBlock), "title")]
 [JsonDerivedType(typeof(QuoteBlock), "quote")]
 [JsonDerivedType(typeof(SubtitleBlock), "subtitle")]
+[JsonDerivedType(typeof(ImageGridBlock), "image-grid")]
 public abstract class ArticleBlock
 {
     [JsonIgnore]
@@ -28,6 +29,13 @@ public class ImageBlock : ArticleBlock
 {
     public ImageBlock() => Type = "image-wide";
     public string Url { get; set; } = null!;
+    public string? Caption { get; set; }
+}
+
+public class ImageGridBlock : ArticleBlock
+{
+    public ImageGridBlock() => Type = "image-grid";
+    public List<string> Urls { get; set; } = new();
     public string? Caption { get; set; }
 }
 

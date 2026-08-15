@@ -81,6 +81,7 @@ public class ArticleConfiguration : IEntityTypeConfiguration<Article>
                 "subtitle" => JsonSerializer.Deserialize<SubtitleBlock>(element.GetRawText(), options),
                 "paragraph" => JsonSerializer.Deserialize<ParagraphBlock>(element.GetRawText(), options),
                 "image-wide" => JsonSerializer.Deserialize<ImageBlock>(element.GetRawText(), options),
+                "image-grid" => JsonSerializer.Deserialize<ImageGridBlock>(element.GetRawText(), options),
                 "quote" => JsonSerializer.Deserialize<QuoteBlock>(element.GetRawText(), options),
                 _ => null
             };
