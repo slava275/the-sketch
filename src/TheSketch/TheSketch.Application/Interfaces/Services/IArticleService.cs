@@ -11,6 +11,7 @@ public interface IArticleService
     Task<PagedResponseDto<ArticleDto>> GetByTagAsync(string tag, int page, int pageSize);
     Task<PagedResponseDto<ArticleDto>> SearchAsync(string searchTerm, int page, int pageSize);
     Task<IEnumerable<ArticleDto>> GetRelatedArticlesAsync(Guid articleId, int count = 3);
+    Task<int> GetCountByCategoryAsync(ArticleCategory? category);
 
     Task<ArticleDto> CreateAsync(CreateArticleDto dto);
     Task<ArticleDto> UpdateAsync(Guid id, UpdateArticleDto dto);

@@ -23,6 +23,7 @@ public interface IArticleRepository
 
     Task<bool> ExistsAsync(Guid id);
     Task<int> CountAsync();
+    Task<int> GetCountByCategoryAsync(ArticleCategory? category);
 
     Task SaveChangesAsync();
 }

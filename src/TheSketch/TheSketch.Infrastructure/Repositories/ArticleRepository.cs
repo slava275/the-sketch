@@ -1,7 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using TheSketch.Application.Interfaces.Repositories;
 using TheSketch.Domain.Entities;
 using TheSketch.Infrastructure.Context;
@@ -119,5 +116,17 @@ public class ArticleRepository : IArticleRepository
     public async Task SaveChangesAsync()
     {
         await context.SaveChangesAsync();
+    }
+
+    public Task<int> GetCountByCategoryAsync(ArticleCategory? category)
+    {
+        if (category.HasValue)
+        {
+            return context.Articles.CountAsync(x => x.Category == category.Value);
+        }
+        else
+        {
+            return context.Articles.CountAsync();
+        }
     }
 }

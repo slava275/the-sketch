@@ -148,4 +148,9 @@ public class ArticleService : IArticleService
 
         return $"{slug}-{Guid.NewGuid().ToString()[..5]}";
     }
+
+    public Task<int> GetCountByCategoryAsync(ArticleCategory? category)
+    {
+        return _articleRepository.GetCountByCategoryAsync(category);
+    }
 }

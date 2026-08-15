@@ -80,6 +80,13 @@ public class ArticlesController : ControllerBase
         return Ok(result);
     }
 
+    [HttpGet("category-count")]
+    public async Task<ActionResult<int>> GetCountByCategory([FromQuery] ArticleCategory? category)
+    {
+        var count = await _articleService.GetCountByCategoryAsync(category);
+        return Ok(count);
+    }
+
     // POST: api/articles
     [Authorize(Roles = "Admin")]
     [HttpPost]
