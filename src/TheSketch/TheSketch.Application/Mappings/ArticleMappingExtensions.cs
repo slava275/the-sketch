@@ -19,6 +19,7 @@ public static class ArticleMappingExtensions
             Slug = article.Slug,
             Description = article.Description,
             CoverImageUrl = article.CoverImageUrl,
+            CoverImageCaption = article.CoverImageCaption,
             CreatedAt = article.CreatedAt,
             Category = article.Category.ToString(),
             Tags = article.Tags ?? new List<string>(),
@@ -37,6 +38,7 @@ public static class ArticleMappingExtensions
             Slug = article.Slug,
             Description = article.Description,
             CoverImageUrl = article.CoverImageUrl,
+            CoverImageCaption = article.CoverImageCaption,
             CreatedAt = article.CreatedAt,
             Category = article.Category.ToString(),
             Tags = article.Tags ?? new List<string>(),
@@ -55,6 +57,7 @@ public static class ArticleMappingExtensions
             Title = dto.Title,
             Description = dto.Description,
             CoverImageUrl = dto.CoverImageUrl,
+            CoverImageCaption = dto.CoverImageCaption,
             Category = dto.Category,
             Tags = dto.Tags ?? new List<string>(),
             Blocks = dto.Blocks ?? new List<ArticleBlock>(),
@@ -70,6 +73,7 @@ public static class ArticleMappingExtensions
         article.Title = dto.Title;
         article.Description = dto.Description;
         article.CoverImageUrl = dto.CoverImageUrl;
+        article.CoverImageCaption = dto.CoverImageCaption;
         article.CreatedAt = dto.CreatedAt ?? article.CreatedAt;
         article.Category = dto.Category;
         article.Tags = dto.Tags ?? new List<string>();

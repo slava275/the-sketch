@@ -9,6 +9,7 @@ public class ArticleDto
     public string Slug { get; set; } = null!;
     public string? Description { get; set; }
     public string? CoverImageUrl { get; set; }
+    public string? CoverImageCaption { get; set; }
     public DateTime CreatedAt { get; set; }
     public string Category { get; set; } = null!;
     public List<string> Tags { get; set; } = new();

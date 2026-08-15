@@ -11,6 +11,7 @@ public class Article
     public string Slug { get; set; } = null!;
     public string? Description { get; set; }
     public string? CoverImageUrl { get; set; }
+    public string? CoverImageCaption { get; set; }
     public byte TimeToRead { get; set; }
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public ArticleCategory Category { get; set; }

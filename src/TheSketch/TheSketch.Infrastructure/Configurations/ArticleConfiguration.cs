@@ -21,6 +21,9 @@ public class ArticleConfiguration : IEntityTypeConfiguration<Article>
             .IsRequired()
             .HasMaxLength(256);
 
+        builder.Property(a => a.CoverImageCaption)
+            .HasMaxLength(500);
+
         builder.HasIndex(a => a.Slug)
             .IsUnique();
 
